@@ -70,12 +70,6 @@ RUN	 /etc/init.d/postgresql start &&\
      #$PSQL "DROP SCHEMA public;" 
      
 ADD repmgr.conf $PGREP/repmgr.conf
-RUN repmgr -d Billboard -U repmgr -D $PGDATA -f $PGREP/repmgr.conf witness create
-     #automate this for many logical shards >> $PSQL "CREATE SCHEMA shard1;" &&\
-     
-     
-
-
 ADD postgresql.conf $PGCONFIG/postgresql.conf
 ADD .pgpass  $PGHOME/.pgpass
 ADD pg_hba.conf $PGCONFIG/pg_hba.conf
@@ -84,6 +78,7 @@ ADD userlist.txt $PGBOUNCE/userlist.txt
 ADD failover.sh $PGHOME/scripts/failover.sh
 #ADD run /usr/local/bin/run
 #RUN chmod +x /usr/local/bin/run
+RUN repmgr -d Billboard -U repmgr -D $PGDATA -f $PGREP/repmgr.conf witness create
 VOLUME  ["/etc/postgresql", "/var/log/postgresql", "/var/lib/postgresql"]
 EXPOSE 5432  6432  22
 CMD ["/usr/lib/postgresql/9.4/bin/postgres", "-D", "/var/lib/postgresql/9.4/main", "-c", "config_file=/etc/postgresql/9.4/main/postgresql.conf"]
