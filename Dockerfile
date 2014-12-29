@@ -76,7 +76,6 @@ ADD pgbouncer.ini $PGBOUNCE/pgbouncer.ini
 ADD userlist.txt $PGBOUNCE/userlist.txt
 #ADD run /usr/local/bin/run
 #RUN chmod +x /usr/local/bin/run
-RUN repmgr -d Billboard -U repmgr -D $PGDATA -f $PGREP/repmgr.conf witness create
 VOLUME  ["/etc/postgresql", "/var/log/postgresql", "/var/lib/postgresql"]
 EXPOSE 5432  6432  22
 CMD ["/usr/lib/postgresql/9.4/bin/postgres", "-D", "/var/lib/postgresql/9.4/main", "-c", "config_file=/etc/postgresql/9.4/main/postgresql.conf"]
