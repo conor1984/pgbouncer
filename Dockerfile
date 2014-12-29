@@ -55,11 +55,10 @@ mailutils
 
 
 USER postgres
-RUN	 
+RUN	 /etc/init.d/postgresql start &&\
 	#cd ~/.ssh &&\
 	 ######scp id_rsa.pub id_rsa authorized_keys maximus@pgnode2: &&\
 	 ######scp id_rsa.pub id_rsa authorized_keys maximus@pgbouncer: &&\ 
-     /etc/init.d/postgresql start &&\
      #pg_ctl start -l $PGLOG/postgresql-9.4-main.log &&\
      createdb Billboard &&\
      #createdb Billboard &&\
