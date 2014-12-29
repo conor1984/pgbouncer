@@ -55,7 +55,8 @@ mailutils
 
 
 USER postgres
-RUN	 #cd ~/.ssh &&\
+RUN	 
+	#cd ~/.ssh &&\
 	 ######scp id_rsa.pub id_rsa authorized_keys maximus@pgnode2: &&\
 	 ######scp id_rsa.pub id_rsa authorized_keys maximus@pgbouncer: &&\ 
      /etc/init.d/postgresql start &&\
