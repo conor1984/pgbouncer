@@ -77,6 +77,7 @@ ADD repmgr.conf $PGREP/repmgr.conf
 
 
 ADD postgresql.conf $PGCONFIG/postgresql.conf
+ADD .pgpass  $PGHOME/.pgpass
 ADD pg_hba.conf $PGCONFIG/pg_hba.conf
 ADD pgbouncer.ini $PGBOUNCE/pgbouncer.ini
 ADD userlist.txt $PGBOUNCE/userlist.txt
