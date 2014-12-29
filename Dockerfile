@@ -4,7 +4,7 @@ FROM ubuntu:14.04
 #MAINTAINER conor.nagle@firmex.com
 
 #Environment 
-ENV PATH 		/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/lib/postgresql/9.4/bin/postgresql
+ENV PATH 		/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/lib/postgresql/9.4/bin
 ENV PGDATA		/var/lib/postgresql/9.4/main
 ENV PGCONFIG	/etc/postgresql/9.4/main
 ENV PGBOUNCE    /etc/pcgbouncer
@@ -55,10 +55,10 @@ mailutils
 
 
 USER postgres
-RUN	 pg_ctl start -D $PGDATA -l $PGLOG/postgresql-9.4-main.log &&\
-	#/etc/init.d/postgresql start &&\
+RUN	 /etc/init.d/postgresql start &&\
 	 ######scp id_rsa.pub id_rsa authorized_keys maximus@pgnode2: &&\
 	 ######scp id_rsa.pub id_rsa authorized_keys maximus@pgbouncer: &&\ 
+     #pg_ctl start -D $PGDATA -l $PGLOG/postgresql-9.4-main.log &&\
      #pg_ctl start -l $PGLOG/postgresql-9.4-main.log &&\
      createdb Billboard &&\
      #createdb Billboard &&\
@@ -79,4 +79,4 @@ ADD userlist.txt $PGBOUNCE/userlist.txt
 #RUN chmod +x /usr/local/bin/run
 VOLUME  ["/etc/postgresql", "/var/log/postgresql", "/var/lib/postgresql"]
 EXPOSE 5432  6432  22
-CMD ["/usr/lib/postgresql/9.4/bin/postgres", "-D", "/var/lib/postgresql/9.4/main", "-c", "config_file=/etc/postgresql/9.4/main/postgresql.conf"]
+CMD ["/usr/lib/postgresql/9.4/bin/postgres", "-D", "/var/lib/postgresql/9.4/main", "-c", "config_file=/etc/postgresql/9.4/main/postgresql.conf", "-l", "/var/log/postgresql-9.4-main.log"]
