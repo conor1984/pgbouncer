@@ -55,7 +55,7 @@ mailutils
 
 
 USER postgres
-RUN	 pg_ctl start -D  -l $PGLOG/postgresql-9.4-main.log &&\
+RUN	 pg_ctl start -D $PGDATA -l $PGLOG/postgresql-9.4-main.log &&\
 	#/etc/init.d/postgresql start &&\
 	 ######scp id_rsa.pub id_rsa authorized_keys maximus@pgnode2: &&\
 	 ######scp id_rsa.pub id_rsa authorized_keys maximus@pgbouncer: &&\ 
