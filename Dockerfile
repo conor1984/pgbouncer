@@ -58,7 +58,8 @@ USER postgres
 RUN	 /etc/init.d/postgresql start &&\
 	 ######scp id_rsa.pub id_rsa authorized_keys maximus@pgnode2: &&\
 	 ######scp id_rsa.pub id_rsa authorized_keys maximus@pgbouncer: &&\ 
-     #pg_ctl start -D $PGDATA -l $PGLOG/postgresql-9.4-main.log &&\
+     cd /usr/lib/postgresql/9.4/bin &&\
+     pg_ctl start -D $PGDATA -l $PGLOG/postgresql-9.4-main.log &&\
      #pg_ctl start -l $PGLOG/postgresql-9.4-main.log &&\
      createdb Billboard &&\
      #createdb Billboard &&\
@@ -79,4 +80,4 @@ ADD userlist.txt $PGBOUNCE/userlist.txt
 #RUN chmod +x /usr/local/bin/run
 VOLUME  ["/etc/postgresql", "/var/log/postgresql", "/var/lib/postgresql"]
 EXPOSE 5432  6432  22
-CMD ["/usr/lib/postgresql/9.4/bin/postgres", "-D", "/var/lib/postgresql/9.4/main", "-c", "config_file=/etc/postgresql/9.4/main/postgresql.conf", "-l", "/var/log/postgresql/postgresql-9.4-main22.log"]
+CMD ["/usr/lib/postgresql/9.4/bin/postgres", "-D", "/var/lib/postgresql/9.4/main", "-c", "config_file=/etc/postgresql/9.4/main/postgresql.conf"]
