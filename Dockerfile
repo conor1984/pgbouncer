@@ -42,8 +42,6 @@ ADD repmgr.conf $PGDATA/repmgr/repmgr.conf
 #ADD .pgpass  $PGHOME/.pgpass
 ADD pgbouncer.ini $PGBOUNCE/pgbouncer.ini
 ADD userlist.txt $PGBOUNCE/userlist.txt
-ADD failover.sh $PGHOME/scripts/failover.sh
-
 #ADD run.sh /var/lib/postgresql/9.4/main/run.sh
 #RUN chmod +x /var/lib/postgresql/9.4/main/run.sh
 #RUN chmod 755 /var/lib/postgresql/9.4/main/run.sh
