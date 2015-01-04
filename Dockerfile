@@ -22,6 +22,12 @@ RUN apt-get update &&\
     openssh-server
     #python-software-properties software-properties-common postgresql-9.4 postgresql-client-9.4 postgresql-contrib-9.4  \
 
+ADD repmgr.conf $PGREP/repmgr.conf 
+RUN chown -R postgres:postgres $PGREP/* &&\
+    chown -R postgres:postgres $PGHOME/* &&\
+    chmod 700 $PGREP/*  &&\
+    chmod 700 $PGHOME/* 
+
 # Run the rest of the commands as the ``postgres`` user created by the ``postgres-9.3`` package when it was ``apt-get installed``
 USER postgres
 
@@ -35,7 +41,7 @@ RUN    /etc/init.d/postgresql start &&\
        #cat $PGHOME/.ssh/id_rsa.pub >> $PGHOME/.ssh/authorized_keys &&\
        #chmod go-rwx $PGHOME/.ssh/* &&\
        #mkdir $PGDATA/repmgr 
-
+ADD .ssh/* $PGHOME/.ssh/
 ADD postgresql.conf $PGCONFIG/postgresql.conf
 ADD pg_hba.conf $PGCONFIG/pg_hba.conf
 ADD repmgr.conf $PGDATA/repmgr/repmgr.conf 
@@ -47,4 +53,4 @@ ADD userlist.txt $PGBOUNCE/userlist.txt
 #RUN chmod 755 /var/lib/postgresql/9.4/main/run.sh
 EXPOSE  5432 6432 22
 VOLUME  ["/etc/postgresql", "$PGLOG", "/var/lib/postgresql"]
-CMD ["/usr/lib/postgresql/9.4/bin/postgres", "-D", "$PGDATA", "-c", "config_file=$PGCONFIG/postgresql.conf"]
+#CMD ["/usr/lib/postgresql/9.4/bin/postgres", "-D", "$PGDATA", "-c", "config_file=$PGCONFIG/postgresql.conf"]
