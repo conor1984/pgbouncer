@@ -16,12 +16,11 @@ RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys B97B0AFCAA1A47F044F
     echo "deb http://apt.postgresql.org/pub/repos/apt/ precise-pgdg main" > /etc/apt/sources.list.d/pgdg.list
 
 RUN apt-get update &&\
-    apt-get install -y libc6 postgresql-9.4  \
+    apt-get install -y libc6 python-software-properties software-properties-common postgresql-contrib-9.4 \
+    postgresql-9.4  \
     pgbouncer \
     repmgr \
-    openssh-server \
-    inetutils-ping
-    #python-software-properties software-properties-common postgresql-9.4 postgresql-client-9.4 postgresql-contrib-9.4  \
+    openssh-server 
 
 ADD repmgr.conf $PGREP/repmgr.conf 
 RUN chown -R postgres:postgres $PGREP/* &&\
@@ -32,16 +31,13 @@ RUN chown -R postgres:postgres $PGREP/* &&\
 # Run the rest of the commands as the ``postgres`` user created by the ``postgres-9.3`` package when it was ``apt-get installed``
 USER postgres
 
-# Create a PostgreSQL role named ``docker`` with ``docker`` as the password and
-# then create a database `docker` owned by the ``docker`` role.
-# Note: here we use ``&&\`` to run commands one after the other - the ``\``
-#       allows the RUN command to span multiple lines.
 RUN    /etc/init.d/postgresql start &&\
        $PSQL "CREATE USER repmgr WITH SUPERUSER PASSWORD 'repmgr';"  &&\
-       $PSQL "CREATE DATABASE repmgr;"       #ssh-keygen -t rsa  -f $PGHOME/.ssh/id_rsa -q -N ""  &&\
+       $PSQL "CREATE DATABASE repmgr;"       
+       #ssh-keygen -t rsa  -f $PGHOME/.ssh/id_rsa -q -N ""  &&\
        #cat $PGHOME/.ssh/id_rsa.pub >> $PGHOME/.ssh/authorized_keys &&\
-       #chmod go-rwx $PGHOME/.ssh/* &&\
-       #mkdir $PGDATA/repmgr 
+       #chmod go-rwx $PGHOME/.ssh/* 
+
 ADD .ssh/* $PGHOME/.ssh/
 ADD postgresql.conf $PGCONFIG/postgresql.conf
 ADD pg_hba.conf $PGCONFIG/pg_hba.conf
